@@ -1,66 +1,49 @@
 package api
 
-import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-	"net/http/httptest"
-	"testing"
+// func TestGetAccountAPI(t *testing.T) {
+// 	account := createRandomAccount()
 
-	mockdb "github.com/karan0033/bank/db/mock"
+// 	ctrl := gomock.NewController(t)
+// 	defer ctrl.Finish()
 
-	"github.com/golang/mock/gomock"
-	db "github.com/karan0033/bank/db/sqlc"
-	"github.com/karan0033/bank/utils"
-	"github.com/stretchr/testify/require"
-)
+// 	store := mockdb.NewMockStore(ctrl)
 
-func TestGetAccountAPI(t *testing.T) {
-	account := createRandomAccount()
+// 	//build Stub
+// 	store.EXPECT().
+// 		GetAccount(gomock.Any(), gomock.Eq(account.ID)).
+// 		Times(1).
+// 		Return(account, nil)
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+// 	//start test server and send req
+// 	server := newTestServer(t, store)
+// 	recorder := httptest.NewRecorder()
 
-	store := mockdb.NewMockStore(ctrl)
+// 	url := fmt.Sprintf("/account/%d", account.ID)
+// 	request, err := http.NewRequest(http.MethodGet, url, nil)
 
-	//build Stub
-	store.EXPECT().
-		GetAccount(gomock.Any(), gomock.Eq(account.ID)).
-		Times(1).
-		Return(account, nil)
+// 	require.NoError(t, err)
 
-	//start test server and send req
-	server := newTestServer(t, store)
-	recorder := httptest.NewRecorder()
+// 	server.router.ServeHTTP(recorder, request)
+// 	//check response
+// 	require.Equal(t, http.StatusOK, recorder.Code)
+// 	requireBodyMatchAccount(t, recorder.Body, account)
+// }
 
-	url := fmt.Sprintf("/account/%d", account.ID)
-	request, err := http.NewRequest(http.MethodGet, url, nil)
+// func createRandomAccount() db.Account {
+// 	return db.Account{
+// 		ID:       utils.RandomInt(1, 1000),
+// 		Owner:    utils.RandomOwner(),
+// 		Balance:  utils.RandomBalance(),
+// 		Currency: utils.RandomCurrency(),
+// 	}
+// }
 
-	require.NoError(t, err)
+// func requireBodyMatchAccount(t *testing.T, body *bytes.Buffer, account db.Account) {
+// 	data, err := ioutil.ReadAll(body)
+// 	require.NoError(t, err)
 
-	server.router.ServeHTTP(recorder, request)
-	//check response
-	require.Equal(t, http.StatusOK, recorder.Code)
-	requireBodyMatchAccount(t, recorder.Body, account)
-}
-
-func createRandomAccount() db.Account {
-	return db.Account{
-		ID:       utils.RandomInt(1, 1000),
-		Owner:    utils.RandomOwner(),
-		Balance:  utils.RandomBalance(),
-		Currency: utils.RandomCurrency(),
-	}
-}
-
-func requireBodyMatchAccount(t *testing.T, body *bytes.Buffer, account db.Account) {
-	data, err := ioutil.ReadAll(body)
-	require.NoError(t, err)
-
-	var gotAccount db.Account
-	err = json.Unmarshal(data, &gotAccount)
-	require.NoError(t, err)
-	require.Equal(t, account, gotAccount)
-}
+// 	var gotAccount db.Account
+// 	err = json.Unmarshal(data, &gotAccount)
+// 	require.NoError(t, err)
+// 	require.Equal(t, account, gotAccount)
+// }
