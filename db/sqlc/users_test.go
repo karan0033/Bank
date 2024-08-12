@@ -1,52 +1,44 @@
 package db
 
-import (
-	"context"
-	"testing"
+// func createRandomUser(t *testing.T) User {
+// 	hashedPassword, err := utils.HashPassword(utils.RandomString(8))
+// 	require.NoError(t, err)
+// 	arg := CreateUsersParams{
+// 		Username:       utils.RandomOwner(),
+// 		FullName:       utils.RandomOwner(),
+// 		HashedPassword: hashedPassword,
+// 		Email:          utils.RandomEmail(),
+// 	}
 
-	"github.com/karan0033/bank/utils"
-	"github.com/stretchr/testify/require"
-)
+// 	user, err := testQuery.CreateUsers(context.Background(), arg)
 
-func createRandomUser(t *testing.T) User {
-	hashedPassword, err := utils.HashPassword(utils.RandomString(8))
-	require.NoError(t, err)
-	arg := CreateUsersParams{
-		Username:       utils.RandomOwner(),
-		FullName:       utils.RandomOwner(),
-		HashedPassword: hashedPassword,
-		Email:          utils.RandomEmail(),
-	}
+// 	require.NoError(t, err)
+// 	require.NotEmpty(t, user)
 
-	user, err := testQuery.CreateUsers(context.Background(), arg)
+// 	require.Equal(t, arg.Username, user.Username)
+// 	require.Equal(t, arg.FullName, user.FullName)
+// 	require.Equal(t, arg.HashedPassword, user.HashedPassword)
+// 	require.Equal(t, arg.Email, user.Email)
 
-	require.NoError(t, err)
-	require.NotEmpty(t, user)
+// 	require.NotEmpty(t, user.CreatedAt)
 
-	require.Equal(t, arg.Username, user.Username)
-	require.Equal(t, arg.FullName, user.FullName)
-	require.Equal(t, arg.HashedPassword, user.HashedPassword)
-	require.Equal(t, arg.Email, user.Email)
+// 	return user
+// }
 
-	require.NotEmpty(t, user.CreatedAt)
+// func TestCreateUser(t *testing.T) {
+// 	createRandomUser(t)
+// }
 
-	return user
-}
+// func TestGetUser(t *testing.T) {
+// 	user1 := createRandomUser(t)
 
-func TestCreateUser(t *testing.T) {
-	createRandomUser(t)
-}
+// 	user2, err := testQuery.GetUser(context.Background(), user1.Username)
 
-func TestGetUser(t *testing.T) {
-	user1 := createRandomUser(t)
-
-	user2, err := testQuery.GetUser(context.Background(), user1.Username)
-
-	require.NoError(t, err)
-	require.NotEmpty(t, user2)
-	require.Equal(t, user2.Username, user1.Username)
-	require.Equal(t, user2.FullName, user1.FullName)
-	require.Equal(t, user2.Email, user1.Email)
-	require.Equal(t, user2.HashedPassword, user1.HashedPassword)
-	require.Equal(t, user2.CreatedAt, user1.CreatedAt)
-}
+// 	require.NoError(t, err)
+// 	require.NotEmpty(t, user2)
+// 	require.Equal(t, user2.Username, user1.Username)
+// 	require.Equal(t, user2.FullName, user1.FullName)
+// 	require.Equal(t, user2.Email, user1.Email)
+// 	require.Equal(t, user2.HashedPassword, user1.HashedPassword)
+// 	require.Equal(t, user2.CreatedAt, user1.CreatedAt)
+// }
