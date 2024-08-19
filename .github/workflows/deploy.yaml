@@ -28,6 +28,9 @@ jobs:
           - 5432:5432
 
     steps:
+      - name: Check out actions on Go module directory
+        uses: actions/checkout@v4
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
