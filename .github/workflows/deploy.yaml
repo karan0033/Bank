@@ -15,21 +15,24 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-2
+      - name: Debug Environment Variables
+        run: |
+          echo "ECR_REPO_URI=${ECR_REPO_URI}"
+          echo "IMAGE_TAG=${IMAGE_TAG}"
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+      - name: Check Docker Version
+        run: docker --version
 
-      - name: Build, tag, and push Docker image to Amazon ECR
+      - name: Build Docker Image
         env:
           ECR_REPO_URI: public.ecr.aws/t0s1o0r9/bank
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REPO_URI:$IMAGE_TAG .
+          docker build --progress=plain -t $ECR_REPO_URI:$IMAGE_TAG .
+
+      - name: Push Docker Image
+        env:
+          ECR_REPO_URI: public.ecr.aws/t0s1o0r9/bank
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
           docker push $ECR_REPO_URI:$IMAGE_TAG
